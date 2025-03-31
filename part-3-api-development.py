@@ -222,4 +222,4 @@ if __name__ == "__main__":
 
 
 
-    demo.launch()
+    demo.launch(server_port=8080)
