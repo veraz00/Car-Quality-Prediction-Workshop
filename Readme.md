@@ -53,32 +53,13 @@ We will analyze a car dataset to uncover the relationships between various featu
 
 ### Preparation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/veraz00/Car-Quality-Prediction-Workshop.git
-    ```
-2. Set up a Python 3 virtual environment:
-    ```
-    python3 -m venv workshop_env
-    source workshop_env/bin/activate  # macOS/Linux
-    workshop_env\Scripts\activate # Windows
-    ```
-    *Note: If you encounter errors, you may need to install python3 and venv first.*
-
-3. Configure the Jupyter Notebook kernel:
-
-- Open the notebook [Part 1: Data Analysis](./part-1-2-data-analysis-model-training.ipynb).
-- Press `Ctrl + Shift + P` to open the Command Palette.
-- Type and select "Notebook: Select Notebook Kernel".
-- Choose the interpreter named "workshop_env".
-
+[Preparation: Set up CodeSpace](./Preparation.md)
 
 
 ## Refer 
 1. [Kaggle: Car Price Data](https://www.kaggle.com/datasets/imgowthamg/car-price)
 2. [Gradio: Official Tutorials](https://www.gradio.app/guides/quickstart)
+3. [test-automation-workshop](https://github.com/miccheng/test-automation-workshop/blob/main/docs/images/codespace_new_with_options.png)
 
 
 
-
-1. Check the data 
