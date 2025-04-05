@@ -7,14 +7,22 @@ import pickle
 from sklearn.preprocessing import StandardScaler
 
 
+# Load CarNames 
+
+with open('./car_names.txt', 'r') as f:
+    car_names = [line.strip() for line in f.readlines()]
+
+
 # Load the trained model
 with open('./models/linear_reg.pkl', 'rb') as f:
     model = pickle.load(f)
 
+
+
 # Load the LabelEncoder objects
 label_encoders = {}
-categorical_columns = ['fueltype', 'aspiration', 'doornumber', 'carbody', 'drivewheel',
-                       'enginelocation', 'enginetype', 'cylindernumber', 'fuelsystem', 'brand', 'model']
+categorical_columns = ['CarName', 'fueltype', 'aspiration', 'doornumber', 'carbody', 'drivewheel',
+                       'enginelocation', 'enginetype', 'cylindernumber', 'fuelsystem']
 for column in categorical_columns:
     with open(f'./models/label_encoder_{column}.pkl', 'rb') as f:
         label_encoders[column] = pickle.load(f)
@@ -58,10 +66,11 @@ def predict(symboling, CarName, fueltype, aspiration, doornumber, carbody, drive
 
     # Extract brand and model from CarName
 
-    df['brand'] = df['CarName'].apply(lambda x: x.split(' ')[0])
-    print('brand: ', df['brand'])
-    df['model'] = df['CarName'].apply(lambda x: ' '.join(x.split(' ')[1:]))
+    # df['brand'] = df['CarName'].apply(lambda x: x.split(' ')[0])
+    # print('brand: ', df['brand'])
+    # df['model'] = df['CarName'].apply(lambda x: ' '.join(x.split(' ')[1:]))
     # Define categorical and numerical columns
+
     numerical_columns = ['wheelbase', 'carlength', 'carwidth', 'carheight', 'curbweight',
                         'enginesize', 'boreratio', 'stroke', 'compressionratio', 'horsepower',
                         'peakrpm', 'citympg', 'highwaympg']
@@ -81,13 +90,13 @@ def predict(symboling, CarName, fueltype, aspiration, doornumber, carbody, drive
 
     df[numerical_columns] = scaler.transform(df[numerical_columns])
 
-    df.drop(['CarName'], axis=1, inplace=True)
+    # df.drop(['CarName'], axis=1, inplace=True)
 
     # Make a prediction
     prediction = model.predict(df)
 
     # return prediction
-    return round(prediction[0], 2)
+    return abs(round(prediction[0], 2))
 
 
 
@@ -140,16 +149,17 @@ if __name__ == "__main__":
     with gr.Blocks(theme='NoCrypt/miku') as demo:
         
         gr.HTML(title)
-
+    
         with gr.Row():
-            # with gr.Column(scale=1, min_width=300):
-            #     gr.Label("**Car Information**")
-                # car_id = gr.Number(label="Car ID", info = "Indentification Number for Each Car")
+        # with gr.Column(scale=1, min_width=300):
+        #     gr.Label("**Car Information**")
+        #     # car_id = gr.Number(label="Car ID", info = "Indentification Number for Each Car")
             with gr.Column(scale=1, min_width=300):
                 gr.Label("**Car Details**")
-                car_name = gr.Textbox(label="Car Name", )
+                # car_name = gr.Textbox(label="Car Name", )
+                car_name = gr.Dropdown(label="Car Name", choices=car_names,)
                 fuel_type = gr.Dropdown(["gas", "diesel"], label="Fuel Type")
-                symboling = gr.Number(label="Symboling", info = "Safety rating of the car, -3 to 3")
+                symboling = gr.Slider(label="Symboling", info = "Safety rating of the car, -3 to 3", minimum=-3, maximum=3, step=1)
                 aspiration = gr.Dropdown(["std", "turbo"], label="Aspiration", info = "Aspiration Used in the Car")
             with gr.Column(scale=1, min_width=300):
                 gr.Label("**Car Body and Drive**")
@@ -165,26 +175,27 @@ if __name__ == "__main__":
         with gr.Row():
             with gr.Column(scale=1, min_width=300):
                 gr.Label("**Engine and Weight**")
-                curb_weight = gr.Number(label="Curb Weight")
+                curb_weight = gr.Slider(label="Curb Weight", minimum=1500, maximum=5000, step=100)
                 engine_type = gr.Dropdown(["dohc", "ohc", "ohcv"], label="Engine Type", info = "Type of Engine")
                 engine_location = gr.Dropdown(["front", "rear"], label="Engine Location", info = "Location of Engine")
                 cylinder_number = gr.Dropdown(["four", "six", "eight"], label="Cylinder Number", info = "Number of Cylinders")
             with gr.Column(scale=1, min_width=300):
                 gr.Label("**Engine Performance**")
-                engine_size = gr.Number(label="Engine Size", minimum=61, maximum=320, step=10)
+                engine_size = gr.Slider(label="Engine Size", minimum=61, maximum=320, step=10)
                 fuel_system = gr.Dropdown(["mpfi", "2bbl", "4bbl"], label="Fuel System")
-                bore_ratio = gr.Number(label="Bore Ratio", minimum=2.5, maximum=4, step=0.5)
-                stroke = gr.Number(label="Stroke", minimum=2, maximum=4, step=0.5)
-                compression_ratio = gr.Number(label="Compression Ratio")
+                bore_ratio = gr.Slider(label="Bore Ratio", minimum=2.5, maximum=4, step=0.5)
+                stroke = gr.Slider(label="Stroke", minimum=2, maximum=4, step=0.5)
+                compression_ratio = gr.Slider(label="Compression Ratio", minimum=5, maximum=15, step=0.5)
             with gr.Column(scale=1, min_width=300):
                 gr.Label("**Performance and Fuel Efficiency**")
-                horsepower = gr.Number(label="Horsepower", minimum=50, maximum=280, step=10)
-                peak_rpm = gr.Number(label="Peak RPM", minimum=4100, maximum=6500, step=100)
-                city_mpg = gr.Number(label="City MPG", minimum=13, maximum=35, step=1)
-                highway_mpg = gr.Number(label="Highway MPG", minimum=16, maximum=54, step=1)
+                horsepower = gr.Slider(label="Horsepower", minimum=50, maximum=280, step=10)
+                peak_rpm = gr.Slider(label="Peak RPM", minimum=4100, maximum=6500, step=100)
+                city_mpg = gr.Slider(label="City MPG", minimum=13, maximum=35, step=1)
+                highway_mpg = gr.Slider(label="Highway MPG", minimum=16, maximum=54, step=1)
         with gr.Row():
             with gr.Column(scale=2, min_width=300):
                 predict_button = gr.Button("Predict")
+
 
         output = gr.Textbox(label="Predicted Price", text_align="center")
 
