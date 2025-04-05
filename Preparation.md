@@ -1,5 +1,8 @@
 
 # Set up CodeSpace 
+
+![Video: Preparation Demonstration](./static/videos/preparation-demonstration.gif)
+
 ## Step 1: Fork the Workshop Repository
 
 1. Go to the workshop repository in GitHub: <https://github.com/veraz00/Car-Quality-Prediction-Workshop>
