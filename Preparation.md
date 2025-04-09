@@ -58,3 +58,8 @@
    ![Wait for Extensions Get Installed](./static/images/kernel_wait_installation.png)
 
 5. After that, you can successfully run this notebook
+
+## Note
+
+- If you accidentally close your Codespace tab, you can find and reopen it at [https://github.com/codespaces](https://github.com/codespaces).
+- After the workshop, please close the Codespace tab and then delete the Codespace you created at the same link.
