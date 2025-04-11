@@ -1,7 +1,10 @@
 
 # Set up CodeSpace 
 
+[**Youtube: Preparation Demonstration**](https://www.youtube.com/watch?v=fQj7seav5WI)
+
 ![Video: Preparation Demonstration](./static/videos/preparation-demonstration.gif)
+
 
 ## Step 1: Fork the Workshop Repository
 
